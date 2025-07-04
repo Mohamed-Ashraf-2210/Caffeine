@@ -9,9 +9,9 @@ import androidx.navigation.NavController
 import com.example.caffeine.ui.theme.Black
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, text: String?) {
     Text(
-        text = "Welcome to Home Screen",
+        text = text!!,
         modifier = androidx.compose.ui.Modifier.padding(16.dp),
         fontSize = 24.sp,
         color = Black

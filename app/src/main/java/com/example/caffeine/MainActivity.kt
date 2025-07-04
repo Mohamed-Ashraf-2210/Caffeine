@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.caffeine.navigation.Screen
 import com.example.caffeine.presentation.home.HomeScreen
 import com.example.caffeine.presentation.welcomeone.WelcomeOneScreen
@@ -49,6 +50,9 @@ fun NavigationStack() {
     NavHost(navController = navController, startDestination = Screen.WelcomeOne.route) {
         composable(Screen.WelcomeOne.route) { WelcomeOneScreen(navController) }
         composable(Screen.WelcomeTwo.route) { WelcomeTwoScreen(navController) }
-        composable(Screen.Home.route) { HomeScreen(navController) }
+        composable(
+            route = Screen.Home.route + "/{typeOfCup}",
+            arguments = listOf(navArgument("typeOfCup") { defaultValue = "Black" })
+        ) { HomeScreen(navController, text = it.arguments?.getString("typeOfCup")) }
     }
 }
