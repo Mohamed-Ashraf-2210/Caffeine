@@ -2,6 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/sniglet</item>
+        <item>@font/sniglet_extrabold</item>
         <item>@font/urbanist_bold</item>
+        <item>@font/urbanist_medium</item>
     </array>
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,9 +18,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.caffeine.navigation.Screen
-import com.example.caffeine.presentation.home.HomeScreen
-import com.example.caffeine.presentation.welcomeone.WelcomeOneScreen
-import com.example.caffeine.presentation.welcometwo.WelcomeTwoScreen
+import com.example.caffeine.presentation.CoffeeReadyScreen
+import com.example.caffeine.presentation.HomeScreen
+import com.example.caffeine.presentation.WaitingScreen
+import com.example.caffeine.presentation.WelcomeOneScreen
+import com.example.caffeine.presentation.WelcomeTwoScreen
 import com.example.caffeine.ui.theme.CaffeineTheme
 import com.example.caffeine.ui.theme.White
 
@@ -33,9 +37,11 @@ class MainActivity : ComponentActivity() {
                     Modifier.fillMaxSize(),
                     containerColor = White,
                 ) {
-                    Box(Modifier
-                        .fillMaxSize()
-                        .padding(top = it.calculateTopPadding())) {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(top = it.calculateTopPadding())
+                    ) {
                         NavigationStack()
                     }
                 }
@@ -49,10 +55,32 @@ fun NavigationStack() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.WelcomeOne.route) {
         composable(Screen.WelcomeOne.route) { WelcomeOneScreen(navController) }
-        composable(Screen.WelcomeTwo.route) { WelcomeTwoScreen(navController) }
+
+        composable(
+            route = Screen.WelcomeTwo.route,
+            exitTransition = {
+                slideOutOfContainer(
+                    animationSpec =
+                        tween(300),
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                )
+            }
+        ) { WelcomeTwoScreen(navController) }
+
         composable(
             route = Screen.Home.route + "/{typeOfCup}",
             arguments = listOf(navArgument("typeOfCup") { defaultValue = "Black" })
-        ) { HomeScreen(navController, text = it.arguments?.getString("typeOfCup")) }
+        ) { HomeScreen(navController, typeOfCoffee = it.arguments?.getString("typeOfCup")) }
+
+        composable(
+            route = Screen.Waiting.route + "/{sizeOfCup}",
+            arguments = listOf(navArgument("sizeOfCup") { defaultValue = "M" })
+        ) { WaitingScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup")) }
+
+
+        composable(
+            route = Screen.CoffeeReady.route + "/{sizeOfCup}",
+            arguments = listOf(navArgument("sizeOfCup") { defaultValue = "M" })
+        ) { CoffeeReadyScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup")) }
     }
 }

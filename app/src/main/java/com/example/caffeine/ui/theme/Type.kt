@@ -36,8 +36,10 @@ val Typography = Typography(
 )
 
 val SingletonFamily = FontFamily(
-    Font(R.font.sniglet)
+    Font(R.font.sniglet, FontWeight.Normal),
+    Font(R.font.sniglet_extrabold, FontWeight.ExtraBold),
 )
 val UrbanistFamily = FontFamily(
-    Font(R.font.urbanist_bold, FontWeight.Bold)
+    Font(R.font.urbanist_bold, FontWeight.Bold),
+    Font(R.font.urbanist_medium, FontWeight.Medium)
 )

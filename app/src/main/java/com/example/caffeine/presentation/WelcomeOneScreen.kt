@@ -1,4 +1,4 @@
-package com.example.caffeine.presentation.welcomeone
+package com.example.caffeine.presentation
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode

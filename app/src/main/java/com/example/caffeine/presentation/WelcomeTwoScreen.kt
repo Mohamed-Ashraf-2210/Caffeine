@@ -1,4 +1,4 @@
-package com.example.caffeine.presentation.welcometwo
+package com.example.caffeine.presentation
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -98,7 +98,7 @@ fun WelcomeTwoScreen(navController: NavController) {
             title = "Continue",
             icon = painterResource(id = R.drawable.arrow_right),
             Modifier
-                .padding(bottom = 50.dp)
+                .padding(bottom = 50.dp, top = 111.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
             when(pagerState.currentPage){
