@@ -1,5 +1,6 @@
 package com.example.caffeine.presentation
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
@@ -15,20 +17,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.caffeine.navigation.Screen
 import com.example.caffeine.presentation.composables.CupSection
+import com.example.caffeine.ui.theme.Black
 import com.example.caffeine.ui.theme.ButtonColor
 import com.example.caffeine.ui.theme.MineShaft
 import com.example.caffeine.ui.theme.MineShaft60
 import com.example.caffeine.ui.theme.MineShaft87
 import com.example.caffeine.ui.theme.SingletonFamily
 import com.example.caffeine.ui.theme.UrbanistFamily
+import com.example.caffeine.ui.theme.White
 import kotlinx.coroutines.delay
+import kotlin.io.path.Path
+import kotlin.io.path.moveTo
 
 @Composable
 fun WaitingScreen(navController: NavController, sizeOfCup: String?) {
@@ -53,7 +65,8 @@ fun WaitingScreen(navController: NavController, sizeOfCup: String?) {
             size = sizeOfCup!!
         )
         LinearProgressIndicator(
-
+            modifier = Modifier.padding(top = 100.dp).fillMaxWidth(),
+            color = Black,
         )
 
         Spacer(Modifier.weight(1f))

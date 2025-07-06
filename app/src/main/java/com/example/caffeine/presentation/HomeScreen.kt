@@ -3,9 +3,10 @@ package com.example.caffeine.presentation
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,8 +14,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -54,33 +58,100 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
     var barVisibility by remember { mutableStateOf(true) }
     var size by remember { mutableStateOf("M") }
     var coffeePercentage by remember { mutableStateOf("Low") }
+    var putSmallCoffee by remember { mutableStateOf(false) }
+    var putMediumCoffee by remember { mutableStateOf(false) }
+    var putLargeCoffee by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AnimatedVisibility(
-            visible = barVisibility,
-            enter = slideInVertically(animationSpec = tween(500)),
-            exit = slideOutVertically(animationSpec = tween(500))
 
-        ) {
-            AppBar(
-                title = typeOfCoffee ?: "",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
-        }
-        CupSection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .height(341.dp),
-            size = size
+        val sizeOfCoffeeSmall = animateDpAsState(
+            targetValue = if (putSmallCoffee) 100.dp else 200.dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
         )
+        val offsetCoffeeSmall = animateDpAsState(
+            targetValue = if (putSmallCoffee) 20.dp else -(320).dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val alphaCoffeeSmall = animateFloatAsState(
+            targetValue = if (putSmallCoffee) 0f else 1f,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val sizeOfCoffeeMedium = animateDpAsState(
+            targetValue = if (putMediumCoffee) 100.dp else 200.dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val offsetCoffeeMedium = animateDpAsState(
+            targetValue = if (putMediumCoffee) 20.dp else -(320).dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val alphaCoffeeMedium = animateFloatAsState(
+            targetValue = if (putMediumCoffee) 0f else 1f,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val sizeOfCoffeeLarge = animateDpAsState(
+            targetValue = if (putLargeCoffee) 100.dp else 200.dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val offsetCoffeeLarge = animateDpAsState(
+            targetValue = if (putLargeCoffee) 20.dp else -(320).dp,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+        val alphaCoffeeLarge = animateFloatAsState(
+            targetValue = if (putLargeCoffee) 0f else 1f,
+            animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+        )
+
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Image(
+                painter = painterResource(id = R.drawable.some_coffee),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(sizeOfCoffeeSmall.value)
+                    .offset(y = offsetCoffeeSmall.value)
+                    .alpha(alphaCoffeeSmall.value),
+            )
+            Image(
+                painter = painterResource(id = R.drawable.some_coffee),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(sizeOfCoffeeMedium.value)
+                    .offset(y = offsetCoffeeMedium.value)
+                    .alpha(alphaCoffeeMedium.value),
+            )
+            Image(
+                painter = painterResource(id = R.drawable.some_coffee),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(sizeOfCoffeeLarge.value)
+                    .offset(y = offsetCoffeeLarge.value)
+                    .alpha(alphaCoffeeLarge.value),
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                AnimatedVisibility(visible = barVisibility) {
+                    AppBar(
+                        title = typeOfCoffee ?: "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                    )
+                }
+                CupSection(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .height(341.dp),
+                    size = size
+                )
+            }
+        }
+
         Row(
             Modifier
                 .clip(CircleShape)
@@ -126,6 +197,7 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                     isSelected = coffeePercentage == "Low",
                 ) {
                     coffeePercentage = "Low"
+                    putSmallCoffee = !putSmallCoffee
                 }
                 SelectedButton(
                     modifier = Modifier.size(40.dp),
@@ -133,6 +205,7 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                     isSelected = coffeePercentage == "Medium",
                 ) {
                     coffeePercentage = "Medium"
+                    putMediumCoffee = !putMediumCoffee
                 }
                 SelectedButton(
                     modifier = Modifier.size(40.dp),
@@ -140,56 +213,25 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                     isSelected = coffeePercentage == "High",
                 ) {
                     coffeePercentage = "High"
+                    putLargeCoffee = !putLargeCoffee
                 }
             }
-
-            Row(
-                modifier = Modifier.width(152.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Low",
-                    fontFamily = UrbanistFamily,
-                    fontSize = 10.sp,
-                    letterSpacing = 0.25.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MineShaft60,
-                )
-                Text(
-                    text = "Medium",
-                    fontFamily = UrbanistFamily,
-                    fontSize = 10.sp,
-                    letterSpacing = 0.25.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MineShaft60,
-                )
-                Text(
-                    text = "High",
-                    fontFamily = UrbanistFamily,
-                    fontSize = 10.sp,
-                    letterSpacing = 0.25.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MineShaft60,
-                )
-            }
+            TextRow()
         }
-
-
-
         Spacer(Modifier.weight(1f))
-        ContinueButton(
-            title = "Continue",
-            icon = painterResource(id = R.drawable.arrow_right),
-            Modifier
-                .padding(bottom = 50.dp, top = 111.dp)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            //barVisibility = !barVisibility
-            navController.navigate(Screen.Waiting.route + "/$size") {
-                popUpTo(Screen.Home.route)
+        AnimatedVisibility(visible = barVisibility) {
+            ContinueButton(
+                title = "Continue",
+                icon = painterResource(id = R.drawable.arrow_right),
+                Modifier
+                    .padding(bottom = 50.dp, top = 111.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                navController.navigate(Screen.Waiting.route + "/$size") {
+                    popUpTo(Screen.Home.route)
+                }
             }
         }
-
     }
 }
 
@@ -266,5 +308,38 @@ private fun SelectedButton(
                 tint = iconColor
             )
         }
+    }
+}
+
+@Composable
+private fun TextRow() {
+    Row(
+        modifier = Modifier.width(152.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Low",
+            fontFamily = UrbanistFamily,
+            fontSize = 10.sp,
+            letterSpacing = 0.25.sp,
+            fontWeight = FontWeight.Medium,
+            color = MineShaft60,
+        )
+        Text(
+            text = "Medium",
+            fontFamily = UrbanistFamily,
+            fontSize = 10.sp,
+            letterSpacing = 0.25.sp,
+            fontWeight = FontWeight.Medium,
+            color = MineShaft60,
+        )
+        Text(
+            text = "High",
+            fontFamily = UrbanistFamily,
+            fontSize = 10.sp,
+            letterSpacing = 0.25.sp,
+            fontWeight = FontWeight.Medium,
+            color = MineShaft60,
+        )
     }
 }
