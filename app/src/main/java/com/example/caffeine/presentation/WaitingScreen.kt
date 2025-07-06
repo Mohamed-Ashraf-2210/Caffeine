@@ -45,8 +45,8 @@ import kotlin.io.path.moveTo
 @Composable
 fun WaitingScreen(navController: NavController, sizeOfCup: String?) {
     LaunchedEffect(Unit) {
-        delay(3000L)
-        navController.navigate(Screen.CoffeeReady.route + "/$sizeOfCup") {
+        delay(300L)
+        navController.navigate(Screen.CoffeeReady.route) {
             popUpTo(Screen.Waiting.route)
         }
     }

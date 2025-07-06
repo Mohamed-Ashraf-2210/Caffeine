@@ -6,4 +6,6 @@ open class Screen(val route: String) {
     object Home : Screen("home")
     object Waiting : Screen("waiting")
     object CoffeeReady : Screen("coffee_ready")
+    object TakeSnack : Screen("take_snack")
+    object Finish : Screen("finish")
 }

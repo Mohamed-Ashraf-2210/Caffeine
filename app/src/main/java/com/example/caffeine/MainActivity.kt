@@ -20,6 +20,7 @@ import androidx.navigation.navArgument
 import com.example.caffeine.navigation.Screen
 import com.example.caffeine.presentation.CoffeeReadyScreen
 import com.example.caffeine.presentation.HomeScreen
+import com.example.caffeine.presentation.TakeSnackScreen
 import com.example.caffeine.presentation.WaitingScreen
 import com.example.caffeine.presentation.WelcomeOneScreen
 import com.example.caffeine.presentation.WelcomeTwoScreen
@@ -78,9 +79,7 @@ fun NavigationStack() {
         ) { WaitingScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup")) }
 
 
-        composable(
-            route = Screen.CoffeeReady.route + "/{sizeOfCup}",
-            arguments = listOf(navArgument("sizeOfCup") { defaultValue = "M" })
-        ) { CoffeeReadyScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup")) }
+        composable(route = Screen.CoffeeReady.route) { CoffeeReadyScreen(navController) }
+        composable(route = Screen.TakeSnack.route) { TakeSnackScreen(navController) }
     }
 }
