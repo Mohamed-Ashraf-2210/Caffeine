@@ -120,6 +120,15 @@ private fun CoffeeGhostWithAnimation(modifier: Modifier = Modifier) {
         ),
         label = "Y Offset Animation"
     )
+    val colorShadow by infiniteTransition.animateColor(
+        initialValue = Black.copy(alpha = .8f),
+        targetValue = Black.copy(alpha = .14f),
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1500),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "Shadow Color Animation"
+    )
 
     Image(
         painter = painterResource(id = R.drawable.coffee_ghost),
@@ -129,9 +138,10 @@ private fun CoffeeGhostWithAnimation(modifier: Modifier = Modifier) {
             .padding(horizontal = 58.dp)
             .offset(y = -yOffset.dp)
     )
-    Image(
+    Icon(
         painter = painterResource(id = R.drawable.shadow),
         contentDescription = null,
+        tint = colorShadow,
         modifier = modifier
             .padding(start = 98.dp, end = 84.dp)
             .blur(12.dp)

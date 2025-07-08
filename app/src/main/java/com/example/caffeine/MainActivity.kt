@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -59,13 +60,12 @@ fun NavigationStack() {
 
         composable(
             route = Screen.WelcomeTwo.route,
-            exitTransition = {
-                slideOutOfContainer(
-                    animationSpec =
-                        tween(300),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            }
+//            exitTransition = {
+//                fadeOut() +
+//                slideOutOfContainer(
+//                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+//                )
+//            }
         ) { WelcomeTwoScreen(navController) }
 
         composable(
