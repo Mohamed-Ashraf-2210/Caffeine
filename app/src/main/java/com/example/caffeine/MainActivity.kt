@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.caffeine.navigation.Screen
 import com.example.caffeine.presentation.CoffeeReadyScreen
+import com.example.caffeine.presentation.FinishScreen
 import com.example.caffeine.presentation.HomeScreen
 import com.example.caffeine.presentation.TakeSnackScreen
 import com.example.caffeine.presentation.WaitingScreen
@@ -60,12 +59,11 @@ fun NavigationStack() {
 
         composable(
             route = Screen.WelcomeTwo.route,
-//            exitTransition = {
-//                fadeOut() +
-//                slideOutOfContainer(
-//                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-//                )
-//            }
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                )
+            }
         ) { WelcomeTwoScreen(navController) }
 
         composable(
@@ -81,5 +79,6 @@ fun NavigationStack() {
 
         composable(route = Screen.CoffeeReady.route) { CoffeeReadyScreen(navController) }
         composable(route = Screen.TakeSnack.route) { TakeSnackScreen(navController) }
+        composable(route = Screen.Finish.route) { FinishScreen(navController) }
     }
 }

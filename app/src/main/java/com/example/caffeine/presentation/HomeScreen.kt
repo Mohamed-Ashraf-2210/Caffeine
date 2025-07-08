@@ -3,17 +3,9 @@ package com.example.caffeine.presentation
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,7 +27,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,11 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -62,7 +53,6 @@ import com.example.caffeine.ui.theme.MineShaft60
 import com.example.caffeine.ui.theme.UrbanistFamily
 import com.example.caffeine.ui.theme.White87
 import com.example.caffeine.ui.theme.WildSand
-import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
@@ -145,26 +135,14 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                     .alpha(alphaCoffeeLarge.value),
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                AnimatedVisibility(
-                    visible = barVisibility,
-                ) {
-                    AppBar(
-                        title = typeOfCoffee ?: "",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp)
-                            .animateEnterExit(
-                                enter = fadeIn() + slideInVertically(
-                                    initialOffsetY = { it },
-                                    animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
-                                ),
-                                exit = fadeOut() + slideOutVertically(
-                                    targetOffsetY = { it / 2 },
-                                    animationSpec = tween(durationMillis = 2000, easing = FastOutSlowInEasing)
-                                )
-                            )
-                    )
-                }
+
+                AppBar(
+                    title = typeOfCoffee ?: "",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                )
+
                 CupSection(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -242,18 +220,16 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
             TextRow()
         }
         Spacer(Modifier.weight(1f))
-        AnimatedVisibility(visible = barVisibility) {
-            ContinueButton(
-                title = "Continue",
-                icon = painterResource(id = R.drawable.arrow_right),
-                Modifier
-                    .padding(bottom = 50.dp, top = 111.dp)
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                barVisibility = !barVisibility
-                navController.navigate(Screen.Waiting.route + "/$size") {
-                    popUpTo(Screen.Home.route)
-                }
+        ContinueButton(
+            title = "Continue",
+            icon = painterResource(id = R.drawable.arrow_right),
+            Modifier
+                .padding(bottom = 50.dp, top = 111.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            barVisibility = !barVisibility
+            navController.navigate(Screen.Waiting.route + "/$size") {
+                popUpTo(Screen.Home.route)
             }
         }
     }
