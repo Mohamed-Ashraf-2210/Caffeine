@@ -1,7 +1,6 @@
 package com.example.caffeine.presentation
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,7 +43,7 @@ import com.example.caffeine.ui.theme.UrbanistFamily
 import com.example.caffeine.ui.theme.WildSand
 
 @Composable
-fun CoffeeReadyScreen(navController: NavController) {
+fun CoffeeReadyScreen(navController: NavController, typeOfCoffee: String?) {
 
     var isTakeAway = remember { mutableStateOf(true) }
     var openScreen by remember { mutableStateOf(false) }
@@ -82,7 +80,13 @@ fun CoffeeReadyScreen(navController: NavController) {
 
             Box(Modifier.height(300.dp)) {
                 Image(
-                    painter = painterResource(id = R.drawable.cup),
+                    painter = painterResource(
+                        when(typeOfCoffee) {
+                        "Espresso" -> R.drawable.empty_cup_espresso
+                        "Latte" -> R.drawable.empty_cup_latte
+                        "Black" -> R.drawable.empty_cup_black
+                        else -> R.drawable.empty_cup_macchiato
+                    }),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Fit
@@ -167,12 +171,18 @@ fun CoffeeReadyScreen(navController: NavController) {
                 modifier = Modifier.padding(top = 24.dp)
             )
             Image(
-                painter = painterResource(id = R.drawable.takea_4),
+                painter = painterResource(
+                    when(typeOfCoffee) {
+                        "Espresso" -> R.drawable.espresso_cover
+                        "Latte" -> R.drawable.lattee_cover
+                        "Black" -> R.drawable.black_cover
+                        else -> R.drawable.macchiato_cover
+                    }
+                ),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp)
-                    .height(96.dp)
-                    .padding(horizontal = 52.dp),
+                    .size(260.dp,69.dp),
                 contentScale = ContentScale.Fit
             )
         }

@@ -23,7 +23,7 @@ import com.example.caffeine.ui.theme.Black
 import com.example.caffeine.ui.theme.UrbanistFamily
 
 @Composable
-fun CupSection(modifier: Modifier = Modifier, size: String) {
+fun CupSection(modifier: Modifier = Modifier,imageRes: Int, size: String) {
     Box(modifier = modifier) {
         val verticalPadding by animateDpAsState(
             targetValue = when (size) {
@@ -51,7 +51,7 @@ fun CupSection(modifier: Modifier = Modifier, size: String) {
         )
 
         Image(
-            painter = painterResource(id = R.drawable.cup),
+            painter = painterResource(imageRes),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()

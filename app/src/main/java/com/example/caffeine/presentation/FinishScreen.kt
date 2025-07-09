@@ -35,7 +35,7 @@ import com.example.caffeine.ui.theme.UrbanistFamily
 import com.example.caffeine.ui.theme.WildSand
 
 @Composable
-fun FinishScreen(navController: NavController){
+fun FinishScreen(navController: NavController, snackType: String?){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -84,7 +84,16 @@ fun FinishScreen(navController: NavController){
 
         Image(
             modifier = Modifier.size(300.dp),
-            painter = painterResource(R.drawable.cupcake),
+            painter = painterResource(
+                when(snackType) {
+                    "Croissant" -> R.drawable.croissant
+                    "Chocolate" -> R.drawable.chocolate
+                    "Cupcake" -> R.drawable.cupcake
+                    "Cookies" -> R.drawable.cookies
+                    "Cinnamon_roll" -> R.drawable.cinnamon_roll
+                    else -> R.drawable.oreo
+                }
+            ),
             contentDescription = null,
         )
         Row(

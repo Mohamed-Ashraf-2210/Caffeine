@@ -45,12 +45,10 @@ import com.example.caffeine.ui.theme.UrbanistFamily
 import kotlinx.coroutines.delay
 
 @Composable
-fun WaitingScreen(navController: NavController, sizeOfCup: String?) {
+fun WaitingScreen(navController: NavController, sizeOfCup: String?, typeOfCoffee: String?) {
     LaunchedEffect(Unit) {
         delay(4000L)
-        navController.navigate(Screen.CoffeeReady.route) {
-            popUpTo(Screen.Waiting.route)
-        }
+        navController.navigate(Screen.CoffeeReady.route+ "/$typeOfCoffee")
     }
 
     val offsetX = LocalConfiguration.current.screenWidthDp.toFloat()
@@ -76,6 +74,12 @@ fun WaitingScreen(navController: NavController, sizeOfCup: String?) {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .height(341.dp),
+            imageRes = when(typeOfCoffee) {
+                "Espresso" -> R.drawable.empty_cup_espresso
+                "Latte" -> R.drawable.empty_cup_latte
+                "Black" -> R.drawable.empty_cup_black
+                else -> R.drawable.empty_cup_macchiato
+            },
             size = sizeOfCup!!
         )
         Box(

@@ -72,13 +72,26 @@ fun NavigationStack() {
         ) { HomeScreen(navController, typeOfCoffee = it.arguments?.getString("typeOfCup")) }
 
         composable(
-            route = Screen.Waiting.route + "/{sizeOfCup}",
-            arguments = listOf(navArgument("sizeOfCup") { defaultValue = "M" })
-        ) { WaitingScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup")) }
+            route = Screen.Waiting.route + "/{sizeOfCup}" + "/{typeOfCup}",
+            arguments = listOf(
+                navArgument("sizeOfCup") { defaultValue = "M" },
+                navArgument("typeOfCup") { defaultValue = "Black" }
+            )
+        ) { WaitingScreen(navController, sizeOfCup = it.arguments?.getString("sizeOfCup"), typeOfCoffee = it.arguments?.getString("typeOfCup")) }
 
 
-        composable(route = Screen.CoffeeReady.route) { CoffeeReadyScreen(navController) }
+        composable(
+            route = Screen.CoffeeReady.route + "/{typeOfCup}",
+            arguments = listOf(navArgument("typeOfCup") { defaultValue = "Black" })
+        ) { CoffeeReadyScreen(navController, typeOfCoffee = it.arguments?.getString("typeOfCup")) }
         composable(route = Screen.TakeSnack.route) { TakeSnackScreen(navController) }
-        composable(route = Screen.Finish.route) { FinishScreen(navController) }
+        composable(
+            route = Screen.Finish.route + "/{snackType}",
+            arguments = listOf(navArgument("snackType") { defaultValue = "cupcake" })
+        ) {
+            FinishScreen(navController, snackType = it.arguments?.getString("snackType"))
+        }
     }
 }
+
+

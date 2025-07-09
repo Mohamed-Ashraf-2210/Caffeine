@@ -148,6 +148,12 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                         .fillMaxWidth()
                         .padding(top = 16.dp)
                         .height(341.dp),
+                    imageRes = when(typeOfCoffee) {
+                        "Espresso" -> R.drawable.empty_cup_espresso
+                        "Latte" -> R.drawable.empty_cup_latte
+                        "Black" -> R.drawable.empty_cup_black
+                        else -> R.drawable.empty_cup_macchiato
+                    },
                     size = size
                 )
             }
@@ -228,9 +234,7 @@ fun HomeScreen(navController: NavController, typeOfCoffee: String?) {
                 .align(Alignment.CenterHorizontally)
         ) {
             barVisibility = !barVisibility
-            navController.navigate(Screen.Waiting.route + "/$size") {
-                popUpTo(Screen.Home.route)
-            }
+            navController.navigate(Screen.Waiting.route + "/$size" + "/$typeOfCoffee")
         }
     }
 }
